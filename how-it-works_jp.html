@@ -231,7 +231,7 @@
         </div>
 
         <figure class="fig">
-          <svg viewBox="0 0 540 215" xmlns="http://www.w3.org/2000/svg" role="img"
+          <svg viewBox="0 0 540 450" xmlns="http://www.w3.org/2000/svg" role="img"
                aria-label="4×4ブロックの構造とXのプレビュー・フル解像度の表示比較">
             <defs>
               <marker id="arr" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
@@ -289,49 +289,115 @@
 
 
             <!-- == Arrows == -->
-            <!-- to thumbnail (y=70) -->
-            <line x1="184" y1="70" x2="238" y2="70" stroke="#4b72c4" stroke-width="1.5" marker-end="url(#arr)"/>
-            <!-- to fullres (y=148) -->
-            <line x1="184" y1="148" x2="238" y2="148" stroke="#4b72c4" stroke-width="1.5" marker-end="url(#arr)"/>
-            <!-- X label -->
-            <text x="211" y="113" text-anchor="middle" font-size="10" fill="#b45309" font-weight="700">X 表示処理</text>
+            <!-- to thumbnail (y=105: center of thumbnail grid y=25 to 185) -->
+            <line x1="184" y1="105" x2="250" y2="105" stroke="#4b72c4" stroke-width="1.5" marker-end="url(#arr)"/>
+            <!-- X label for thumbnail -->
+            <text x="217" y="100" text-anchor="middle" font-size="9" fill="#b45309" font-weight="700">X</text>
+            <text x="217" y="115" text-anchor="middle" font-size="8" fill="#62708a" font-weight="600">プレビュー</text>
+            <!-- to fullres: bezier curve from bottom of left grid -->
+            <path d="M 184 195 Q 217 240 250 285" stroke="#4b72c4" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+            <!-- X label for fullres -->
+            <text x="217" y="250" text-anchor="middle" font-size="9" fill="#b45309" font-weight="700">X</text>
+            <text x="217" y="265" text-anchor="middle" font-size="8" fill="#62708a" font-weight="600">タップ後</text>
 
-            <!-- == Thumbnail panel (all white) == -->
-            <text x="390" y="14" text-anchor="middle" font-size="10.5" fill="#62708a" font-weight="700">プレビュー（サムネイル）</text>
-            <rect x="242" y="22" width="295" height="90" fill="white" stroke="#e5e7eb" stroke-width="1" rx="8"/>
-            <text x="390" y="62" text-anchor="middle" font-size="14" fill="#d1d5db" font-weight="600">白 一 色</text>
-            <text x="390" y="80" text-anchor="middle" font-size="9.5" fill="#d1d5db">W 画素のみサンプリングされるため</text>
+            <!-- == Thumbnail panel (4×4 all-white grid) == -->
+            <text x="398" y="14" text-anchor="middle" font-size="10.5" fill="#62708a" font-weight="700">プレビュー（サムネイル）</text>
 
-            <!-- == Fullres panel (4×4 mini grid) == -->
-            <text x="390" y="128" text-anchor="middle" font-size="10.5" fill="#62708a" font-weight="700">タップ後（フル解像度）</text>
-            <rect x="242" y="133" width="295" height="74" fill="white" stroke="#e5e7eb" stroke-width="1" rx="8"/>
+            <!-- White-only 4×4 grid: cell=40, origin=250,25 -->
+            <!-- Row 0: var#0 | W | var#1 | W (pattern matches left grid) -->
+            <rect x="250" y="25" width="40" height="40" fill="#d1d5db" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="270" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#a3aab3">var</text>
+            <rect x="290" y="25" width="40" height="40" fill="#ffffff" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="310" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="330" y="25" width="40" height="40" fill="#d1d5db" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="350" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#a3aab3">var</text>
+            <rect x="370" y="25" width="40" height="40" fill="#ffffff" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="390" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
 
-            <!-- mini 4×4 grid: cell=14, gap=2 → step=16; start at (316,141) -->
-            <!-- Row 0 -->
-            <rect x="316" y="141" width="14" height="14" fill="#ef4444" rx="2"/>
-            <rect x="332" y="141" width="14" height="14" fill="#f3f4f6" stroke="#e5e7eb" stroke-width="0.5" rx="2"/>
-            <rect x="348" y="141" width="14" height="14" fill="#3b82f6" rx="2"/>
-            <rect x="364" y="141" width="14" height="14" fill="#f3f4f6" stroke="#e5e7eb" stroke-width="0.5" rx="2"/>
-            <!-- Row 1 -->
-            <rect x="316" y="157" width="14" height="14" fill="#f3f4f6" stroke="#e5e7eb" stroke-width="0.5" rx="2"/>
-            <rect x="332" y="157" width="14" height="14" fill="#22c55e" rx="2"/>
-            <rect x="348" y="157" width="14" height="14" fill="#f3f4f6" stroke="#e5e7eb" stroke-width="0.5" rx="2"/>
-            <rect x="364" y="157" width="14" height="14" fill="#f3f4f6" stroke="#e5e7eb" stroke-width="0.5" rx="2"/>
-            <!-- Row 2 -->
-            <rect x="316" y="173" width="14" height="14" fill="#eab308" rx="2"/>
-            <rect x="332" y="173" width="14" height="14" fill="#f3f4f6" stroke="#e5e7eb" stroke-width="0.5" rx="2"/>
-            <rect x="348" y="173" width="14" height="14" fill="#06b6d4" rx="2"/>
-            <rect x="364" y="173" width="14" height="14" fill="#f3f4f6" stroke="#e5e7eb" stroke-width="0.5" rx="2"/>
-            <!-- Row 3 -->
-            <rect x="316" y="189" width="14" height="14" fill="#f3f4f6" stroke="#e5e7eb" stroke-width="0.5" rx="2"/>
-            <rect x="332" y="189" width="14" height="14" fill="#f3f4f6" stroke="#e5e7eb" stroke-width="0.5" rx="2"/>
-            <rect x="348" y="189" width="14" height="14" fill="#f3f4f6" stroke="#e5e7eb" stroke-width="0.5" rx="2"/>
-            <rect x="364" y="189" width="14" height="14" fill="#a855f7" rx="2"/>
+            <!-- Row 1: W | var#2 | W | W -->
+            <rect x="250" y="65" width="40" height="40" fill="#ffffff" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="270" y="90" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="290" y="65" width="40" height="40" fill="#d1d5db" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="310" y="90" text-anchor="middle" font-size="12" font-weight="bold" fill="#a3aab3">var</text>
+            <rect x="330" y="65" width="40" height="40" fill="#ffffff" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="350" y="90" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="370" y="65" width="40" height="40" fill="#ffffff" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="390" y="90" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+
+            <!-- Row 2: var#3 | W | var#4 | W -->
+            <rect x="250" y="105" width="40" height="40" fill="#d1d5db" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="270" y="130" text-anchor="middle" font-size="12" font-weight="bold" fill="#a3aab3">var</text>
+            <rect x="290" y="105" width="40" height="40" fill="#ffffff" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="310" y="130" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="330" y="105" width="40" height="40" fill="#d1d5db" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="350" y="130" text-anchor="middle" font-size="12" font-weight="bold" fill="#a3aab3">var</text>
+            <rect x="370" y="105" width="40" height="40" fill="#ffffff" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="390" y="130" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+
+            <!-- Row 3: W | W | W | var#5 -->
+            <rect x="250" y="145" width="40" height="40" fill="#ffffff" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="270" y="170" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="290" y="145" width="40" height="40" fill="#ffffff" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="310" y="170" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="330" y="145" width="40" height="40" fill="#ffffff" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="350" y="170" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="370" y="145" width="40" height="40" fill="#d1d5db" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="390" y="170" text-anchor="middle" font-size="12" font-weight="bold" fill="#a3aab3">var</text>
+
+            <!-- Thumbnail grid border -->
+            <rect x="250" y="25" width="160" height="160" fill="none" stroke="#4b72c4" stroke-width="1.5" rx="4"/>
+
+            <!-- == Fullres panel (4×4 grid - same size as left) == -->
+            <text x="398" y="198" text-anchor="middle" font-size="10.5" fill="#62708a" font-weight="700">タップ後（フル解像度）</text>
+
+            <!-- Large 4×4 grid: cell=40, origin=250,205 -->
+            <!-- Row 0: var#0(red) | W | var#1(blue) | W -->
+            <rect x="250" y="205" width="40" height="40" fill="#ef4444" rx="3"/>
+            <text x="270" y="230" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">0</text>
+            <rect x="290" y="205" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="310" y="230" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="330" y="205" width="40" height="40" fill="#3b82f6" rx="3"/>
+            <text x="350" y="230" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">1</text>
+            <rect x="370" y="205" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="390" y="230" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+
+            <!-- Row 1: W | var#2(green) | W | W -->
+            <rect x="250" y="245" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="270" y="270" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="290" y="245" width="40" height="40" fill="#22c55e" rx="3"/>
+            <text x="310" y="270" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">2</text>
+            <rect x="330" y="245" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="350" y="270" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="370" y="245" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="390" y="270" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+
+            <!-- Row 2: var#3(yellow) | W | var#4(cyan) | W -->
+            <rect x="250" y="285" width="40" height="40" fill="#eab308" rx="3"/>
+            <text x="270" y="310" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">3</text>
+            <rect x="290" y="285" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="310" y="310" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="330" y="285" width="40" height="40" fill="#06b6d4" rx="3"/>
+            <text x="350" y="310" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">4</text>
+            <rect x="370" y="285" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="390" y="310" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+
+            <!-- Row 3: W | W | W | var#5(purple) -->
+            <rect x="250" y="325" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="270" y="350" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="290" y="325" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="310" y="350" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="330" y="325" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="350" y="350" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="370" y="325" width="40" height="40" fill="#a855f7" rx="3"/>
+            <text x="390" y="350" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">5</text>
+
+            <!-- Grid border -->
+            <rect x="250" y="205" width="160" height="160" fill="none" stroke="#4b72c4" stroke-width="1.5" rx="4"/>
 
             <!-- annotation: "可変画素の色が見える" -->
-            <text x="271" y="165" text-anchor="middle" font-size="9.5" fill="#6b7280">可変画素の</text>
-            <text x="271" y="177" text-anchor="middle" font-size="9.5" fill="#6b7280">色が見える</text>
-            <line x1="291" y1="166" x2="312" y2="155" stroke="#9ca3af" stroke-width="1" stroke-dasharray="3,2"/>
+            <text x="279" y="375" text-anchor="middle" font-size="9.5" fill="#6b7280">可変画素の</text>
+            <text x="279" y="387" text-anchor="middle" font-size="9.5" fill="#6b7280">色が見える</text>
+            <line x1="299" y1="376" x2="320" y2="330" stroke="#9ca3af" stroke-width="1" stroke-dasharray="3,2"/>
 
           </svg>
           <div style="display:flex;gap:18px;justify-content:center;flex-wrap:wrap;">
