@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>しくみ解説 — カラー Tap me 画像ジェネレーター</title>
+  <style>
+    :root {
+      --bg: #f5f1e8;
+      --panel: rgba(255,255,255,0.88);
+      --panel-strong: #fffdf8;
+      --line: rgba(21, 32, 56, 0.12);
+      --text: #1b2436;
+      --muted: #62708a;
+      --accent: #274a91;
+      --shadow: 0 22px 48px rgba(20, 31, 54, 0.12);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+        "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic Medium", sans-serif;
+      line-height: 1.8;
+      background:
+        radial-gradient(circle at top right, rgba(39,74,145,0.12), transparent 30%),
+        radial-gradient(circle at bottom left, rgba(180,95,46,0.10), transparent 30%),
+        linear-gradient(180deg, #fbf8f2 0%, #f0e9dd 100%);
+    }
+
+    .page {
+      width: min(860px, calc(100% - 28px));
+      margin: 20px auto 56px;
+      display: grid;
+      gap: 18px;
+    }
+
+    /* ---- Topnav ---- */
+    .topnav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0 2px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(39,74,145,0.08);
+      transition: background 160ms;
+    }
+    .back-link:hover { background: rgba(39,74,145,0.15); }
+
+    .breadcrumb {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* ---- Hero ---- */
+    .hero {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      padding: 28px 34px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(39,74,145,0.1);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    h1.doc-title {
+      font-size: clamp(22px, 3.2vw, 36px);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+    }
+
+    .doc-subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ---- Doc body ---- */
+    .doc-body {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      padding: 38px 42px;
+      display: grid;
+      gap: 32px;
+      counter-reset: sec;
+    }
+
+    .section { display: grid; gap: 18px; }
+
+    h2.sh {
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      padding-bottom: 10px;
+      border-bottom: 2px solid rgba(39,74,145,0.14);
+    }
+
+    p {
+      font-size: 15px;
+      line-height: 1.9;
+    }
+
+    strong { font-weight: 800; }
+    em { font-style: italic; color: var(--accent); font-style: normal; font-weight: 700; }
+
+    /* ---- Figure ---- */
+    .fig {
+      background: var(--panel-strong);
+      border: 1px solid rgba(21,32,56,0.09);
+      border-radius: 18px;
+      padding: 22px 18px 16px;
+      display: grid;
+      gap: 12px;
+      justify-items: center;
+    }
+
+    .fig svg {
+      width: 100%;
+      max-width: 560px;
+      height: auto;
+    }
+
+    figcaption {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.7;
+      max-width: 520px;
+    }
+
+    /* ---- Key points ---- */
+    ol.kp {
+      padding-left: 1.4em;
+      display: grid;
+      gap: 12px;
+    }
+
+    ol.kp li {
+      font-size: 15px;
+      line-height: 1.85;
+      padding-left: 0.3em;
+    }
+
+    /* ---- Note box ---- */
+    .note {
+      background: rgba(234,179,8,0.08);
+      border-left: 3px solid rgba(234,179,8,0.6);
+      border-radius: 0 10px 10px 0;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+    .note a {
+      color: var(--accent);
+    }
+
+    /* ---- Math inline ---- */
+    .math {
+      font-family: "Georgia", "Times New Roman", serif;
+      background: rgba(39,74,145,0.07);
+      border-radius: 4px;
+      padding: 1px 5px;
+      font-size: 0.95em;
+    }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 680px) {
+      .doc-body { padding: 20px 18px; }
+      .hero { padding: 18px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <nav class="topnav">
+      <a class="back-link" href="index_jp.html">← ツールに戻る</a>
+      <span class="breadcrumb">カラー Tap me › しくみ解説</span>
+    </nav>
+
+    <header class="hero">
+      <div class="eyebrow">Technical Note</div>
+      <h1 class="doc-title">Color Tap me のしくみ</h1>
+      <p class="doc-subtitle">X（旧 Twitter）の画像圧縮機構を利用した「タップで色が現れる」画像生成の原理</p>
+    </header>
+
+    <article class="doc-body">
+
+      <!-- §1 -->
+      <div class="section">
+        <h2 class="sh">なぜこれで動くのか — X(Twitter) の仕組み</h2>
+
+        <p>X（旧 Twitter）は投稿された画像のサイズ・ファイル形式によっては再圧縮・リサイズを行う。<strong>本手法が正しく動作するには、いくつかの条件を満たす必要がある。</strong>この条件を満たすと、X が生成する<strong>低解像度プレビュー</strong>の処理が 4×4 ブロック内の特定画素だけをサンプリングする性質を利用できる。その結果、<em>プレビューでは白く、タップ後のフル解像度では色がついて見える</em>画像を作ることが可能になる。</p>
+
+        <div class="note">
+          ⚠️ <strong>このしくみがうまくいく正確な条件は未解明です。</strong>経験上、PNG で長辺 2048px 以上・4096px 以下の範囲で安定して動作することが多いです。1024px でも動作することは確認していますが、色が滲む場合があります。環境や時期によっても変わる可能性があります。<br>
+          条件について情報をお持ちの方は <a href="https://x.com/nade_eaf4fc" target="_blank" rel="noopener">@nade_eaf4fc</a> まで教えていただけると嬉しいです🙏
+        </div>
+
+        <figure class="fig">
+          <svg viewBox="0 0 540 215" xmlns="http://www.w3.org/2000/svg" role="img"
+               aria-label="4×4ブロックの構造とXのプレビュー・フル解像度の表示比較">
+            <defs>
+              <marker id="arr" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+                <polygon points="0 0, 7 3.5, 0 7" fill="#4b72c4"/>
+              </marker>
+            </defs>
+
+            <!-- == 4×4 grid (cell=40, origin=20,25) == -->
+            <!-- Row 0: var#0(red) | W | var#1(blue) | W -->
+            <rect x="20"  y="25" width="40" height="40" fill="#ef4444" rx="3"/>
+            <text x="40"  y="50" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">0</text>
+            <rect x="60"  y="25" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="80"  y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="100" y="25" width="40" height="40" fill="#3b82f6" rx="3"/>
+            <text x="120" y="50" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">1</text>
+            <rect x="140" y="25" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="160" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+
+            <!-- Row 1: W | var#2(green) | W | W -->
+            <rect x="20"  y="65" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="40"  y="90" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="60"  y="65" width="40" height="40" fill="#22c55e" rx="3"/>
+            <text x="80"  y="90" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">2</text>
+            <rect x="100" y="65" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="120" y="90" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="140" y="65" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="160" y="90" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+
+            <!-- Row 2: var#3(yellow) | W | var#4(cyan) | W -->
+            <rect x="20"  y="105" width="40" height="40" fill="#eab308" rx="3"/>
+            <text x="40"  y="130" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">3</text>
+            <rect x="60"  y="105" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="80"  y="130" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="100" y="105" width="40" height="40" fill="#06b6d4" rx="3"/>
+            <text x="120" y="130" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">4</text>
+            <rect x="140" y="105" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="160" y="130" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+
+            <!-- Row 3: W | W | W | var#5(purple) -->
+            <rect x="20"  y="145" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="40"  y="170" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="60"  y="145" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="80"  y="170" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="100" y="145" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <text x="120" y="170" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="140" y="145" width="40" height="40" fill="#a855f7" rx="3"/>
+            <text x="160" y="170" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">5</text>
+
+            <!-- Grid border -->
+            <rect x="20" y="25" width="160" height="160" fill="none" stroke="#4b72c4" stroke-width="1.5" rx="4"/>
+
+            <!-- Grid title -->
+            <text x="100" y="14" text-anchor="middle" font-size="10.5" fill="#62708a" font-weight="700">4×4 ブロック（フル解像度）</text>
+
+
+
+            <!-- == Arrows == -->
+            <!-- to thumbnail (y=70) -->
+            <line x1="184" y1="70" x2="238" y2="70" stroke="#4b72c4" stroke-width="1.5" marker-end="url(#arr)"/>
+            <!-- to fullres (y=148) -->
+            <line x1="184" y1="148" x2="238" y2="148" stroke="#4b72c4" stroke-width="1.5" marker-end="url(#arr)"/>
+            <!-- X label -->
+            <text x="211" y="113" text-anchor="middle" font-size="10" fill="#b45309" font-weight="700">X 表示処理</text>
+
+            <!-- == Thumbnail panel (all white) == -->
+            <text x="390" y="14" text-anchor="middle" font-size="10.5" fill="#62708a" font-weight="700">プレビュー（サムネイル）</text>
+            <rect x="242" y="22" width="295" height="90" fill="white" stroke="#e5e7eb" stroke-width="1" rx="8"/>
+            <text x="390" y="62" text-anchor="middle" font-size="14" fill="#d1d5db" font-weight="600">白 一 色</text>
+            <text x="390" y="80" text-anchor="middle" font-size="9.5" fill="#d1d5db">W 画素のみサンプリングされるため</text>
+
+            <!-- == Fullres panel (4×4 mini grid) == -->
+            <text x="390" y="128" text-anchor="middle" font-size="10.5" fill="#62708a" font-weight="700">タップ後（フル解像度）</text>
+            <rect x="242" y="133" width="295" height="74" fill="white" stroke="#e5e7eb" stroke-width="1" rx="8"/>
+
+            <!-- mini 4×4 grid: cell=14, gap=2 → step=16; start at (316,141) -->
+            <!-- Row 0 -->
+            <rect x="316" y="141" width="14" height="14" fill="#ef4444" rx="2"/>
+            <rect x="332" y="141" width="14" height="14" fill="#f3f4f6" stroke="#e5e7eb" stroke-width="0.5" rx="2"/>
+            <rect x="348" y="141" width="14" height="14" fill="#3b82f6" rx="2"/>
+            <rect x="364" y="141" width="14" height="14" fill="#f3f4f6" stroke="#e5e7eb" stroke-width="0.5" rx="2"/>
+            <!-- Row 1 -->
+            <rect x="316" y="157" width="14" height="14" fill="#f3f4f6" stroke="#e5e7eb" stroke-width="0.5" rx="2"/>
+            <rect x="332" y="157" width="14" height="14" fill="#22c55e" rx="2"/>
+            <rect x="348" y="157" width="14" height="14" fill="#f3f4f6" stroke="#e5e7eb" stroke-width="0.5" rx="2"/>
+            <rect x="364" y="157" width="14" height="14" fill="#f3f4f6" stroke="#e5e7eb" stroke-width="0.5" rx="2"/>
+            <!-- Row 2 -->
+            <rect x="316" y="173" width="14" height="14" fill="#eab308" rx="2"/>
+            <rect x="332" y="173" width="14" height="14" fill="#f3f4f6" stroke="#e5e7eb" stroke-width="0.5" rx="2"/>
+            <rect x="348" y="173" width="14" height="14" fill="#06b6d4" rx="2"/>
+            <rect x="364" y="173" width="14" height="14" fill="#f3f4f6" stroke="#e5e7eb" stroke-width="0.5" rx="2"/>
+            <!-- Row 3 -->
+            <rect x="316" y="189" width="14" height="14" fill="#f3f4f6" stroke="#e5e7eb" stroke-width="0.5" rx="2"/>
+            <rect x="332" y="189" width="14" height="14" fill="#f3f4f6" stroke="#e5e7eb" stroke-width="0.5" rx="2"/>
+            <rect x="348" y="189" width="14" height="14" fill="#f3f4f6" stroke="#e5e7eb" stroke-width="0.5" rx="2"/>
+            <rect x="364" y="189" width="14" height="14" fill="#a855f7" rx="2"/>
+
+            <!-- annotation: "可変画素の色が見える" -->
+            <text x="271" y="165" text-anchor="middle" font-size="9.5" fill="#6b7280">可変画素の</text>
+            <text x="271" y="177" text-anchor="middle" font-size="9.5" fill="#6b7280">色が見える</text>
+            <line x1="291" y1="166" x2="312" y2="155" stroke="#9ca3af" stroke-width="1" stroke-dasharray="3,2"/>
+
+          </svg>
+          <div style="display:flex;gap:18px;justify-content:center;flex-wrap:wrap;">
+            <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#6b7280;">
+              <span style="display:inline-block;width:14px;height:14px;background:#f3f4f6;border:1px solid #d1d5db;border-radius:3px;flex-shrink:0;"></span>
+              W = 白固定画素（×10）
+            </span>
+            <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#6b7280;">
+              <span style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#4b72c4;border-radius:3px;flex-shrink:0;font-size:9px;font-weight:800;color:#fff;">0</span>
+              0〜5 = 可変画素（×6）
+            </span>
+          </div>
+          <figcaption>図 1. X のプレビュー（上）とタップ後（下）。白固定画素（W）のみがサンプリングされると画像全体が白く見え、フル解像度では可変画素（0〜5）の色が現れる。</figcaption>
+        </figure>
+
+        <p>仕組みをまとめると次の三点になる。</p>
+
+        <ol class="kp">
+          <li><strong>白固定（W）画素を X のサンプリング規則に合わせて配置する。</strong>4×4 ブロックに 10 個の白画素を埋め込む。X のサムネイル生成処理はこれらの白画素だけをサンプリングするため、プレビューは白一色に見える。</li>
+          <li><strong>色は <span class="math">{0, 255}</span> の 2 値のみ使える。</strong>中間値を含む色を可変画素に使うと、プレビュー（低解像度サムネイル）にも色が滲み出てしまうことを経験的に確認している。そのためチャンネル値は <span class="math">0</span> か <span class="math">255</span> のみに限定しており、使える色は <span class="math">2³ = 8</span> 通りのパレットに絞られる。</li>
+          <li><strong>可変（0〜5）画素にブロックの平均色を近似する色を割り当てる。</strong>6 個の可変画素それぞれに 8 色パレットのどの色を割り当てるかを、元画像のブロック平均値に最も近くなるよう決定する。</li>
+        </ol>
+      </div>
+
+    </article>
+  </div>
+</body>
+</html>
