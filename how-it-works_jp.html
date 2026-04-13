@@ -148,7 +148,7 @@
 
     .fig svg {
       width: 100%;
-      max-width: 560px;
+      max-width: 900px;
       height: auto;
     }
 
@@ -231,8 +231,8 @@
         </div>
 
         <figure class="fig">
-          <svg viewBox="0 0 540 450" xmlns="http://www.w3.org/2000/svg" role="img"
-               aria-label="4×4ブロックの構造とXのプレビュー・フル解像度の表示比較">
+          <svg viewBox="0 0 950 420" xmlns="http://www.w3.org/2000/svg" role="img"
+               aria-label="元画像から4×4ブロック抽出、その後のXプレビュー・フル解像度の表示比較">
             <defs>
               <marker id="arr" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
                 <polygon points="0 0, 7 3.5, 0 7" fill="#4b72c4"/>
@@ -246,159 +246,175 @@
               </pattern>
             </defs>
 
-            <!-- == 4×4 grid (cell=40, origin=20,25) == -->
+            <g transform="translate(211, 0)">
+            <!-- == Before image (actual before.jpg - larger) == -->
+            <rect x="8" y="8" width="140" height="180" rx="6" fill="#e5e7eb" stroke="#d1d5db" stroke-width="0.8"/>
+            <image href="img/before.jpg" x="8" y="8" width="140" height="180" preserveAspectRatio="xMidYMid slice"/>
+            <rect x="8" y="8" width="140" height="180" rx="6" fill="none" stroke="#4b72c4" stroke-width="1"/>
+            <text x="78" y="200" text-anchor="middle" font-size="10" fill="#62708a" font-weight="700">元画像</text>
+
+            <!-- Grid overlay on image - showing where 4x4 sample comes from -->
+            <g opacity="0.8">
+              <rect x="50" y="60" width="32" height="32" fill="none" stroke="#4b72c4" stroke-width="1.5" stroke-dasharray="2,2" rx="2"/>
+              <text x="66" y="108" text-anchor="middle" font-size="8" fill="#4b72c4" font-weight="700">sample</text>
+            </g>
+
+            <!-- Arrow from image to 4x4 grid -->
+            <path d="M 154 98 Q 175 98 196 98" stroke="#4b72c4" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+            <text x="175" y="88" text-anchor="middle" font-size="8" fill="#b45309" font-weight="700">4×4</text>
+            <text x="175" y="110" text-anchor="middle" font-size="7" fill="#62708a" font-weight="600">抽出</text>
+
+            <!-- == 4×4 grid (cell=32, origin=220,30) == -->
             <!-- Row 0: var#0(red) | W | var#1(blue) | W -->
-            <rect x="20"  y="25" width="40" height="40" fill="#ef4444" rx="3"/>
-            <text x="40"  y="50" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">0</text>
-            <rect x="60"  y="25" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="80"  y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
-            <rect x="100" y="25" width="40" height="40" fill="#3b82f6" rx="3"/>
-            <text x="120" y="50" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">1</text>
-            <rect x="140" y="25" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="160" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="220"  y="30" width="32" height="32" fill="#ef4444" rx="2"/>
+            <text x="236"  y="52" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">0</text>
+            <rect x="252"  y="30" width="32" height="32" fill="#f3f4f6" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="268"  y="52" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="284" y="30" width="32" height="32" fill="#3b82f6" rx="2"/>
+            <text x="300" y="52" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">1</text>
+            <rect x="316" y="30" width="32" height="32" fill="#f3f4f6" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="332" y="52" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
 
             <!-- Row 1: W | var#2(green) | W | W -->
-            <rect x="20"  y="65" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="40"  y="90" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
-            <rect x="60"  y="65" width="40" height="40" fill="#22c55e" rx="3"/>
-            <text x="80"  y="90" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">2</text>
-            <rect x="100" y="65" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="120" y="90" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
-            <rect x="140" y="65" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="160" y="90" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="220"  y="62" width="32" height="32" fill="#f3f4f6" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="236"  y="84" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="252"  y="62" width="32" height="32" fill="#22c55e" rx="2"/>
+            <text x="268"  y="84" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">2</text>
+            <rect x="284" y="62" width="32" height="32" fill="#f3f4f6" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="300" y="84" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="316" y="62" width="32" height="32" fill="#f3f4f6" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="332" y="84" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
 
             <!-- Row 2: var#3(yellow) | W | var#4(cyan) | W -->
-            <rect x="20"  y="105" width="40" height="40" fill="#eab308" rx="3"/>
-            <text x="40"  y="130" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">3</text>
-            <rect x="60"  y="105" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="80"  y="130" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
-            <rect x="100" y="105" width="40" height="40" fill="#06b6d4" rx="3"/>
-            <text x="120" y="130" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">4</text>
-            <rect x="140" y="105" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="160" y="130" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="220"  y="94" width="32" height="32" fill="#eab308" rx="2"/>
+            <text x="236"  y="116" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">3</text>
+            <rect x="252"  y="94" width="32" height="32" fill="#f3f4f6" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="268"  y="116" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="284" y="94" width="32" height="32" fill="#06b6d4" rx="2"/>
+            <text x="300" y="116" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">4</text>
+            <rect x="316" y="94" width="32" height="32" fill="#f3f4f6" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="332" y="116" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
 
             <!-- Row 3: W | W | W | var#5(purple) -->
-            <rect x="20"  y="145" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="40"  y="170" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
-            <rect x="60"  y="145" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="80"  y="170" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
-            <rect x="100" y="145" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="120" y="170" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
-            <rect x="140" y="145" width="40" height="40" fill="#a855f7" rx="3"/>
-            <text x="160" y="170" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">5</text>
+            <rect x="220"  y="126" width="32" height="32" fill="#f3f4f6" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="236"  y="148" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="252"  y="126" width="32" height="32" fill="#f3f4f6" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="268"  y="148" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="284" y="126" width="32" height="32" fill="#f3f4f6" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="300" y="148" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="316" y="126" width="32" height="32" fill="#a855f7" rx="2"/>
+            <text x="332" y="148" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">5</text>
 
             <!-- Grid border -->
-            <rect x="20" y="25" width="160" height="160" fill="none" stroke="#4b72c4" stroke-width="1.5" rx="4"/>
-
-            <!-- Grid title -->
-            <text x="100" y="14" text-anchor="middle" font-size="10.5" fill="#62708a" font-weight="700">4×4 ブロック（フル解像度）</text>
-
-
+            <rect x="220" y="30" width="128" height="128" fill="none" stroke="#4b72c4" stroke-width="1.5" rx="2"/>
+            <text x="284" y="16" text-anchor="middle" font-size="11" fill="#62708a" font-weight="700">4×4 ブロック</text>
 
             <!-- == Arrows == -->
-            <!-- to thumbnail (y=105: center of thumbnail grid y=25 to 185) -->
-            <line x1="184" y1="105" x2="250" y2="105" stroke="#4b72c4" stroke-width="1.5" marker-end="url(#arr)"/>
+            <!-- to thumbnail: center of 4x4 to center of preview -->
+            <line x1="348" y1="94" x2="400" y2="94" stroke="#4b72c4" stroke-width="2" marker-end="url(#arr)"/>
             <!-- X label for thumbnail -->
-            <text x="217" y="100" text-anchor="middle" font-size="9" fill="#b45309" font-weight="700">X</text>
-            <text x="217" y="115" text-anchor="middle" font-size="8" fill="#62708a" font-weight="600">プレビュー</text>
-            <!-- to fullres: bezier curve from bottom of left grid -->
-            <path d="M 184 195 Q 217 240 250 285" stroke="#4b72c4" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+            <text x="374" y="82" text-anchor="middle" font-size="10" fill="#b45309" font-weight="700">X</text>
+            <text x="374" y="108" text-anchor="middle" font-size="8" fill="#62708a" font-weight="600">プレビュー</text>
+
+            <!-- to fullres: bezier curve from bottom of 4x4 grid center -->
+            <path d="M 284 158 Q 330 200 410 250" stroke="#4b72c4" stroke-width="2" fill="none" marker-end="url(#arr)"/>
             <!-- X label for fullres -->
-            <text x="217" y="250" text-anchor="middle" font-size="9" fill="#b45309" font-weight="700">X</text>
-            <text x="217" y="265" text-anchor="middle" font-size="8" fill="#62708a" font-weight="600">タップ後</text>
+            <text x="340" y="195" text-anchor="middle" font-size="10" fill="#b45309" font-weight="700">X</text>
+            <text x="340" y="223" text-anchor="middle" font-size="8" fill="#62708a" font-weight="600">タップ後</text>
 
             <!-- == Thumbnail panel (4×4 all-white grid) == -->
-            <text x="398" y="14" text-anchor="middle" font-size="10.5" fill="#62708a" font-weight="700">プレビュー（サムネイル）</text>
+            <text x="528" y="16" text-anchor="middle" font-size="11" fill="#62708a" font-weight="700">プレビュー（サムネイル）</text>
 
-            <!-- White-only 4×4 grid: cell=40, origin=250,25 -->
-            <!-- Row 0: var#0 | W | var#1 | W (pattern matches left grid) -->
-            <rect x="250" y="25" width="40" height="40" fill="url(#checkerboard)" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <rect x="290" y="25" width="40" height="40" fill="#ffffff" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="310" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
-            <rect x="330" y="25" width="40" height="40" fill="url(#checkerboard)" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <rect x="370" y="25" width="40" height="40" fill="#ffffff" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="390" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <!-- White-only 4×4 grid: cell=32, origin=400,30 -->
+            <!-- Row 0: var#0 | W | var#1 | W -->
+            <rect x="400" y="30" width="32" height="32" fill="url(#checkerboard)" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <rect x="432" y="30" width="32" height="32" fill="#ffffff" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="448" y="52" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="464" y="30" width="32" height="32" fill="url(#checkerboard)" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <rect x="496" y="30" width="32" height="32" fill="#ffffff" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="512" y="52" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
 
             <!-- Row 1: W | var#2 | W | W -->
-            <rect x="250" y="65" width="40" height="40" fill="#ffffff" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="270" y="90" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
-            <rect x="290" y="65" width="40" height="40" fill="url(#checkerboard)" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <rect x="330" y="65" width="40" height="40" fill="#ffffff" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="350" y="90" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
-            <rect x="370" y="65" width="40" height="40" fill="#ffffff" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="390" y="90" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="400" y="62" width="32" height="32" fill="#ffffff" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="416" y="84" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="432" y="62" width="32" height="32" fill="url(#checkerboard)" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <rect x="464" y="62" width="32" height="32" fill="#ffffff" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="480" y="84" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="496" y="62" width="32" height="32" fill="#ffffff" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="512" y="84" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
 
             <!-- Row 2: var#3 | W | var#4 | W -->
-            <rect x="250" y="105" width="40" height="40" fill="url(#checkerboard)" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <rect x="290" y="105" width="40" height="40" fill="#ffffff" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="310" y="130" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
-            <rect x="330" y="105" width="40" height="40" fill="url(#checkerboard)" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <rect x="370" y="105" width="40" height="40" fill="#ffffff" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="390" y="130" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="400" y="94" width="32" height="32" fill="url(#checkerboard)" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <rect x="432" y="94" width="32" height="32" fill="#ffffff" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="448" y="116" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="464" y="94" width="32" height="32" fill="url(#checkerboard)" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <rect x="496" y="94" width="32" height="32" fill="#ffffff" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="512" y="116" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
 
             <!-- Row 3: W | W | W | var#5 -->
-            <rect x="250" y="145" width="40" height="40" fill="#ffffff" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="270" y="170" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
-            <rect x="290" y="145" width="40" height="40" fill="#ffffff" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="310" y="170" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
-            <rect x="330" y="145" width="40" height="40" fill="#ffffff" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="350" y="170" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
-            <rect x="370" y="145" width="40" height="40" fill="url(#checkerboard)" stroke="#d1d5db" stroke-width="1" rx="3"/>
+            <rect x="400" y="126" width="32" height="32" fill="#ffffff" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="416" y="148" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="432" y="126" width="32" height="32" fill="#ffffff" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="448" y="148" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="464" y="126" width="32" height="32" fill="#ffffff" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="480" y="148" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="496" y="126" width="32" height="32" fill="url(#checkerboard)" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
 
             <!-- Thumbnail grid border -->
-            <rect x="250" y="25" width="160" height="160" fill="none" stroke="#4b72c4" stroke-width="1.5" rx="4"/>
+            <rect x="400" y="30" width="128" height="128" fill="none" stroke="#4b72c4" stroke-width="1.5" rx="2"/>
 
-            <!-- == Fullres panel (4×4 grid - same size as left) == -->
-            <text x="398" y="198" text-anchor="middle" font-size="10.5" fill="#62708a" font-weight="700">タップ後（フル解像度）</text>
+            <!-- == Fullres panel (4×4 grid) == -->
+            <text x="528" y="236" text-anchor="middle" font-size="11" fill="#62708a" font-weight="700">タップ後（フル解像度）</text>
 
-            <!-- Large 4×4 grid: cell=40, origin=250,205 -->
+            <!-- 4×4 grid: cell=32, origin=400,250 -->
             <!-- Row 0: var#0(red) | W | var#1(blue) | W -->
-            <rect x="250" y="205" width="40" height="40" fill="#ef4444" rx="3"/>
-            <text x="270" y="230" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">0</text>
-            <rect x="290" y="205" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="310" y="230" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
-            <rect x="330" y="205" width="40" height="40" fill="#3b82f6" rx="3"/>
-            <text x="350" y="230" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">1</text>
-            <rect x="370" y="205" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="390" y="230" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="400" y="250" width="32" height="32" fill="#ef4444" rx="2"/>
+            <text x="416" y="272" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">0</text>
+            <rect x="432" y="250" width="32" height="32" fill="#f3f4f6" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="448" y="272" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="464" y="250" width="32" height="32" fill="#3b82f6" rx="2"/>
+            <text x="480" y="272" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">1</text>
+            <rect x="496" y="250" width="32" height="32" fill="#f3f4f6" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="512" y="272" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
 
             <!-- Row 1: W | var#2(green) | W | W -->
-            <rect x="250" y="245" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="270" y="270" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
-            <rect x="290" y="245" width="40" height="40" fill="#22c55e" rx="3"/>
-            <text x="310" y="270" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">2</text>
-            <rect x="330" y="245" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="350" y="270" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
-            <rect x="370" y="245" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="390" y="270" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="400" y="282" width="32" height="32" fill="#f3f4f6" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="416" y="304" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="432" y="282" width="32" height="32" fill="#22c55e" rx="2"/>
+            <text x="448" y="304" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">2</text>
+            <rect x="464" y="282" width="32" height="32" fill="#f3f4f6" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="480" y="304" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="496" y="282" width="32" height="32" fill="#f3f4f6" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="512" y="304" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
 
             <!-- Row 2: var#3(yellow) | W | var#4(cyan) | W -->
-            <rect x="250" y="285" width="40" height="40" fill="#eab308" rx="3"/>
-            <text x="270" y="310" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">3</text>
-            <rect x="290" y="285" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="310" y="310" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
-            <rect x="330" y="285" width="40" height="40" fill="#06b6d4" rx="3"/>
-            <text x="350" y="310" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">4</text>
-            <rect x="370" y="285" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="390" y="310" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="400" y="314" width="32" height="32" fill="#eab308" rx="2"/>
+            <text x="416" y="336" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">3</text>
+            <rect x="432" y="314" width="32" height="32" fill="#f3f4f6" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="448" y="336" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="464" y="314" width="32" height="32" fill="#06b6d4" rx="2"/>
+            <text x="480" y="336" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">4</text>
+            <rect x="496" y="314" width="32" height="32" fill="#f3f4f6" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="512" y="336" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
 
             <!-- Row 3: W | W | W | var#5(purple) -->
-            <rect x="250" y="325" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="270" y="350" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
-            <rect x="290" y="325" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="310" y="350" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
-            <rect x="330" y="325" width="40" height="40" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" rx="3"/>
-            <text x="350" y="350" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">W</text>
-            <rect x="370" y="325" width="40" height="40" fill="#a855f7" rx="3"/>
-            <text x="390" y="350" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">5</text>
+            <rect x="400" y="346" width="32" height="32" fill="#f3f4f6" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="416" y="368" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="432" y="346" width="32" height="32" fill="#f3f4f6" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="448" y="368" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="464" y="346" width="32" height="32" fill="#f3f4f6" stroke="#d1d5db" stroke-width="0.8" rx="2"/>
+            <text x="480" y="368" text-anchor="middle" font-size="10" font-weight="bold" fill="#9ca3af">W</text>
+            <rect x="496" y="346" width="32" height="32" fill="#a855f7" rx="2"/>
+            <text x="512" y="368" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">5</text>
 
             <!-- Grid border -->
-            <rect x="250" y="205" width="160" height="160" fill="none" stroke="#4b72c4" stroke-width="1.5" rx="4"/>
+            <rect x="400" y="250" width="128" height="128" fill="none" stroke="#4b72c4" stroke-width="1.5" rx="2"/>
 
             <!-- annotation: "可変画素の色が見える" -->
-            <text x="279" y="375" text-anchor="middle" font-size="9.5" fill="#6b7280">可変画素の</text>
-            <text x="279" y="387" text-anchor="middle" font-size="9.5" fill="#6b7280">色が見える</text>
-            <line x1="299" y1="376" x2="320" y2="330" stroke="#9ca3af" stroke-width="1" stroke-dasharray="3,2"/>
+            <text x="432" y="395" text-anchor="middle" font-size="9" fill="#6b7280">可変画素の</text>
+            <text x="432" y="408" text-anchor="middle" font-size="9" fill="#6b7280">色が見える</text>
+            <line x1="448" y1="395" x2="470" y2="365" stroke="#9ca3af" stroke-width="1" stroke-dasharray="3,2"/>
+            </g>
 
           </svg>
           <div style="display:flex;gap:18px;justify-content:center;flex-wrap:wrap;">
@@ -411,7 +427,7 @@
               0〜5 = 可変画素（×6）
             </span>
           </div>
-          <figcaption>図 1. X のプレビュー（上）とタップ後（下）。白固定画素（W）のみがサンプリングされると画像全体が白く見え、フル解像度では可変画素（0〜5）の色が現れる。</figcaption>
+          <figcaption>図 1. 元画像から 1 ブロック（4×4）を抽出。X のプレビュー（中央上）では白固定画素（W）のみがサンプリングされて白一色に見え、タップ後のフル解像度（右下）では可変画素（0〜5）の色が現れる。</figcaption>
         </figure>
 
         <p>仕組みをまとめると次の三点になる。</p>
