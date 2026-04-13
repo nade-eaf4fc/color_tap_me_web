@@ -1,0 +1,12 @@
+# ===== Local/Build files (exclude) =====
+node_modules/
+archive/
+*.swp
+*.swo
+*~
+.DS_Store
+*.bak
+*.tmp
+
+# OS
+Thumbs.db

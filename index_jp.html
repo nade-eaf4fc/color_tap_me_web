@@ -1,0 +1,536 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>カラー Tap me 画像ジェネレーター</title>
+  <style>
+    :root {
+      --bg: #f5f1e8;
+      --panel: rgba(255,255,255,0.88);
+      --panel-strong: #fffdf8;
+      --line: rgba(21, 32, 56, 0.12);
+      --text: #1b2436;
+      --muted: #62708a;
+      --accent: #274a91;
+      --shadow: 0 22px 48px rgba(20, 31, 54, 0.12);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: "Yu Gothic UI", "Hiragino Sans", "Meiryo", sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(39,74,145,0.12), transparent 30%),
+        radial-gradient(circle at bottom left, rgba(180,95,46,0.10), transparent 30%),
+        linear-gradient(180deg, #fbf8f2 0%, #f0e9dd 100%);
+    }
+
+    .page {
+      width: min(1240px, calc(100% - 28px));
+      margin: 20px auto 32px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .hero,
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .hero { padding: 26px 28px; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(39,74,145,0.1);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 14px 0 10px;
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 15px;
+      max-width: 940px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(320px, 360px) minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .panel { padding: 18px; }
+
+    .controls {
+      display: grid;
+      gap: 14px;
+    }
+
+    .block {
+      border: 1px solid rgba(21, 32, 56, 0.08);
+      border-radius: 18px;
+      background: var(--panel-strong);
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .block-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .dropzone {
+      border: 2px dashed rgba(39,74,145,0.25);
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(39,74,145,0.05), rgba(39,74,145,0.02));
+      padding: 22px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 160ms ease, transform 160ms ease, background 160ms ease;
+    }
+
+    .dropzone.dragover {
+      border-color: rgba(39,74,145,0.6);
+      background: linear-gradient(180deg, rgba(39,74,145,0.10), rgba(39,74,145,0.04));
+      transform: translateY(-1px);
+    }
+
+    .dropzone strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+
+    .dropzone span,
+    .hint,
+    .status,
+    .meta,
+    .summary,
+    .spec-note {
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 13px;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    select,
+    button {
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid rgba(21, 32, 56, 0.14);
+      background: #fff;
+      color: var(--text);
+      font: inherit;
+    }
+
+    select {
+      padding: 12px 14px;
+    }
+
+    button {
+      padding: 13px 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 160ms ease, box-shadow 160ms ease;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    button.primary {
+      background: linear-gradient(135deg, #23457e, #335fa7);
+      color: #fff;
+      border-color: rgba(35,69,126,0.2);
+      box-shadow: 0 12px 24px rgba(35,69,126,0.18);
+    }
+
+    button.secondary {
+      background: #fff;
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .status { min-height: 1.4em; }
+
+    .right {
+      display: grid;
+      gap: 18px;
+    }
+
+    .view-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      border: 1px solid rgba(21, 32, 56, 0.08);
+      border-radius: 18px;
+      background: #fffdfa;
+      padding: 15px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .card h2,
+    .panel h2 {
+      margin: 0;
+      font-size: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .canvas-wrap {
+      border-radius: 16px;
+      border: 1px solid rgba(21, 32, 56, 0.12);
+      background:
+        linear-gradient(45deg, rgba(0,0,0,0.05) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.05) 75%),
+        linear-gradient(45deg, rgba(0,0,0,0.05) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.05) 75%);
+      background-position: 0 0, 10px 10px;
+      background-size: 20px 20px;
+      overflow: auto;
+      max-height: 620px;
+    }
+
+    canvas {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      background: #fff;
+    }
+
+    .spec-list {
+      margin: 0;
+      padding-left: 1.2em;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 13px;
+    }
+
+    @media (max-width: 1080px) {
+      .layout,
+      .view-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(100% - 18px, 1240px);
+        margin: 14px auto 24px;
+      }
+
+      .hero,
+      .panel {
+        padding: 14px;
+        border-radius: 18px;
+      }
+
+      .buttons {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .creator-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      width: fit-content;
+      padding: 10px 16px 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(21, 32, 56, 0.16);
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,249,252,0.96));
+      color: #5f6f8a;
+      text-decoration: none;
+      box-shadow: 0 10px 22px rgba(20, 31, 54, 0.08);
+      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+    }
+
+    .creator-badge:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 28px rgba(20, 31, 54, 0.12);
+      border-color: rgba(39,74,145,0.28);
+    }
+
+    .creator-badge:focus-visible {
+      outline: 2px solid rgba(39,74,145,0.35);
+      outline-offset: 2px;
+    }
+
+    .creator-badge .icon-wrap {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #182234;
+      background: rgba(39,74,145,0.06);
+      flex: 0 0 auto;
+    }
+
+    .creator-badge svg {
+      width: 15px;
+      height: 15px;
+      display: block;
+      fill: currentColor;
+    }
+
+    .creator-badge .handle {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .sample-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .sample-grid figure {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .sample-grid figcaption {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .sample-grid img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+      border: 1px solid rgba(21,32,56,0.1);
+    }
+
+    @media (max-width: 720px) {
+      .sample-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .tweet-wrap {
+      margin-top: 18px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .section-heading {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0 0 14px;
+    }
+
+    .disclaimer {
+      border-top: 1px solid rgba(21,32,56,0.1);
+      padding-top: 20px;
+      margin-top: 8px;
+    }
+
+    .disclaimer-heading {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--muted);
+      margin: 0 0 10px;
+      letter-spacing: 0.02em;
+    }
+
+    .disclaimer-list {
+      margin: 0;
+      padding-left: 1.3em;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="hero">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <div class="eyebrow">GitHub Pages Ready</div>
+        <div style="font-size: 13px; display: flex; gap: 12px;">
+          <a href="index_en.html" style="color: #274a91; text-decoration: none;">English</a>
+          <a href="index_zh.html" style="color: #274a91; text-decoration: none;">中文</a>
+          <a href="index_ko.html" style="color: #274a91; text-decoration: none;">한국어</a>
+        </div>
+      </div>
+      <h1>カラー Tap me 画像ジェネレーター</h1>
+      <div class="hero-meta">
+        <a class="creator-badge" href="https://x.com/nade_eaf4fc" target="_blank" rel="noopener noreferrer" aria-label="制作者のXアカウント @nade_eaf4fc を開く">
+          <span class="icon-wrap" aria-hidden="true">
+            <svg viewBox="0 0 1200 1227" role="img" aria-hidden="true">
+              <path d="M714.163 519.284 1160.89 0H1055.31L667.137 451.887 357.328 0H0l468.492 682.327L0 1226.37h105.58l409.81-477.93 327.282 477.93H1200L714.137 519.284h.026ZM568.165 689.214l-47.349-67.717L144.011 82.78h162.604l304.093 435.079 47.35 67.717 395.781 566.377H891.235L568.165 689.214Z"/>
+            </svg>
+          </span>
+          <span class="handle">@nade_eaf4fc</span>
+        </a>
+        <a class="creator-badge" href="https://github.com/nade-eaf4fc/tap_me_web" target="_blank" rel="noopener noreferrer" aria-label="GitHubリポジトリを開く">
+          <span class="icon-wrap" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577v-2.165c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+          </span>
+          <span class="handle">GitHub</span>
+        </a>
+      </div>
+    </section>
+
+    <div class="layout">
+      <section class="panel">
+        <div class="controls">
+          <div class="block">
+            <div class="block-title">Input</div>
+            <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="画像を選択">
+              <strong>ここに画像をドラッグ＆ドロップ</strong>
+              <span>またはクリックして PNG / JPG / WebP を選択</span>
+            </div>
+            <input id="fileInput" type="file" accept="image/*">
+            <div id="fileMeta" class="meta">まだ画像は読み込まれていません。</div>
+          </div>
+
+          <div class="block">
+            <div class="block-title">Action</div>
+            <label for="colorModeSelect">色割り当て方式</label>
+            <select id="colorModeSelect">
+              <option value="lut">固定パターン（LUT）</option>
+              <option value="cycle" selected>座標巡回（モアレ抑制）</option>
+            </select>
+            <div class="buttons">
+              <button id="processButton" class="primary" disabled>処理する</button>
+              <button id="downloadButton" class="secondary" disabled>画像を保存</button>
+            </div>
+            <div id="statusText" class="status">画像を読み込むと処理できます。</div>
+          </div>
+
+          <div class="block">
+            <div class="block-title">X 向けの目安</div>
+            <ul class="spec-list">
+              <li>単一画像は 2:1 から 3:4 の範囲だとフル表示されやすいです。</li>
+              <li>運用上の目安は、一辺が 2048 px 以上だとうまくいきやすいです。</li>
+              <li>4096 px 以下にしないと、X 側での圧縮処理が入り、色が見えてしまう場合があります。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="right">
+        <section class="panel">
+          <div class="view-grid">
+            <div class="card">
+              <h2>Before</h2>
+              <div id="beforeMeta" class="meta">-</div>
+              <div class="canvas-wrap">
+                <canvas id="sourceCanvas"></canvas>
+              </div>
+            </div>
+            <div class="card">
+              <h2>After</h2>
+              <div id="afterMeta" class="meta">-</div>
+              <div class="canvas-wrap">
+                <canvas id="outputCanvas"></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+    </div>
+  </div>
+
+  <div class="page">
+    <h2 class="section-heading">作例</h2>
+    <div class="sample-grid">
+      <figure>
+        <img src="img/before.jpg" alt="処理前の元画像">
+        <figcaption>Before（元画像）</figcaption>
+      </figure>
+      <figure>
+        <img src="img/after1.png" alt="作例1（Tap me 処理後）">
+        <figcaption>After 1（Tap me 処理後）</figcaption>
+      </figure>
+      <figure>
+        <img src="img/after2.png" alt="作例2（Tap me 処理後）">
+        <figcaption>After 2（Tap me 処理後）</figcaption>
+      </figure>
+    </div>
+    <div class="tweet-wrap">
+        <blockquote class="twitter-tweet"><p lang="zxx" dir="ltr"><a href="https://t.co/BFZt4Rx6cx">pic.twitter.com/BFZt4Rx6cx</a></p>&mdash; だれあか (@dare_aka2) <a href="https://twitter.com/dare_aka2/status/2043703166009782359?ref_src=twsrc%5Etfw">April 13, 2026</a></blockquote>
+      <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </div>
+  </div>
+
+  <div class="page">
+    <footer class="disclaimer">
+      <h2 class="disclaimer-heading">免責事項</h2>
+      <ul class="disclaimer-list">
+        <li>本ツールは「Tap me」画像の生成を試みるものですが、表示環境・ディスプレイ・OS・アプリなど様々な要素が絡み合うため、すべての環境で意図した結果が再現されることを保証するものではありません。</li>
+        <li>画像処理はすべてお使いのブラウザ上でローカルに実行されます。アップロードした画像やその処理結果がサーバーに送信・保存されることはありません。</li>
+        <li>本ツールの使用によって生じたいかなる損害・不利益についても、制作者は責任を負いかねます。</li>
+      </ul>
+    </footer>
+  </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
