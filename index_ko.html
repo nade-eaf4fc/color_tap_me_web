@@ -28,6 +28,8 @@
         radial-gradient(circle at top right, rgba(39,74,145,0.12), transparent 30%),
         radial-gradient(circle at bottom left, rgba(180,95,46,0.10), transparent 30%),
         linear-gradient(180deg, #fbf8f2 0%, #f0e9dd 100%);
+      display: flex;
+      flex-direction: column;
     }
 
     .page {
@@ -35,6 +37,11 @@
       margin: 20px auto 32px;
       display: grid;
       gap: 18px;
+    }
+
+    body > .page:nth-of-type(3) {
+      margin-top: auto;
+      margin-bottom: auto;
     }
 
     .hero,
@@ -80,6 +87,7 @@
       display: grid;
       grid-template-columns: minmax(320px, 360px) minmax(0, 1fr);
       gap: 18px;
+      align-items: start;
     }
 
     .panel { padding: 18px; }
@@ -406,6 +414,164 @@
       font-size: 12px;
       line-height: 1.8;
     }
+
+    .toggle-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .toggle-switch input {
+      display: none;
+    }
+
+    .toggle-knob {
+      width: 48px;
+      height: 26px;
+      background: rgba(21, 32, 56, 0.2);
+      border-radius: 999px;
+      position: relative;
+      transition: background 160ms ease;
+      border: none;
+      padding: 0;
+    }
+
+    .toggle-knob::after {
+      content: '';
+      width: 22px;
+      height: 22px;
+      background: white;
+      border-radius: 999px;
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      transition: left 160ms ease;
+      box-shadow: 0 2px 4px rgba(20, 31, 54, 0.1);
+    }
+
+    .toggle-switch input:checked + .toggle-knob {
+      background: #274a91;
+    }
+
+    .toggle-switch input:checked + .toggle-knob::after {
+      left: 24px;
+    }
+
+    .gamma-container {
+      display: grid;
+      gap: 10px;
+    }
+
+    .gamma-controls {
+      display: grid;
+      gap: 8px;
+    }
+
+    .gamma-input-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .gamma-input-group input[type="range"] {
+      flex: 1;
+      height: 6px;
+      border-radius: 3px;
+      border: none;
+      background: linear-gradient(to right, 
+        rgba(21, 32, 56, 0.1) 0%, 
+        rgba(39, 74, 145, 0.3) 50%, 
+        rgba(21, 32, 56, 0.1) 100%);
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+      cursor: pointer;
+    }
+
+    .gamma-input-group input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: #274a91;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(20, 31, 54, 0.15);
+    }
+
+    .gamma-input-group input[type="range"]::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: #274a91;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 4px rgba(20, 31, 54, 0.15);
+    }
+
+    .gamma-value {
+      width: 48px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text);
+      min-width: 48px;
+    }
+
+    .gamma-hint {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .histogram-section {
+      margin-top: 20px;
+    }
+
+    .histogram-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0 0 12px;
+      letter-spacing: 0.02em;
+    }
+
+    .histogram-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+    }
+
+    .histogram-container {
+      border: 1px solid rgba(21, 32, 56, 0.08);
+      border-radius: 12px;
+      background: var(--panel-strong);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .histogram-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .histogram-canvas {
+      width: 100%;
+      height: 120px;
+      border: 1px solid rgba(21, 32, 56, 0.1);
+      border-radius: 8px;
+      background: white;
+    }
+
+    .histogram-hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -423,15 +589,15 @@
       </div>
       <h1>색상 Tap me 이미지 생성기</h1>
       <div class="hero-meta">
-        <a class="creator-badge" href="https://x.com/nade_eaf4fc" target="_blank" rel="noopener noreferrer" aria-label="제작자의 X 계정 @nade_eaf4fc">
+        <a class="creator-badge" href="https://x.com/dare_aka2" target="_blank" rel="noopener noreferrer" aria-label="제작자의 X 계정 @dare_aka2">
           <span class="icon-wrap" aria-hidden="true">
             <svg viewBox="0 0 1200 1227" role="img" aria-hidden="true">
               <path d="M714.163 519.284 1160.89 0H1055.31L667.137 451.887 357.328 0H0l468.492 682.327L0 1226.37h105.58l409.81-477.93 327.282 477.93H1200L714.137 519.284h.026ZM568.165 689.214l-47.349-67.717L144.011 82.78h162.604l304.093 435.079 47.35 67.717 395.781 566.377H891.235L568.165 689.214Z"/>
             </svg>
           </span>
-          <span class="handle">@nade_eaf4fc</span>
+          <span class="handle">@dare_aka2</span>
         </a>
-        <a class="creator-badge" href="https://github.com/nade-eaf4fc/tap_me_web" target="_blank" rel="noopener noreferrer" aria-label="GitHub 저장소">
+        <a class="creator-badge" href="https://github.com/nade-eaf4fc/color_tap_me_web" target="_blank" rel="noopener noreferrer" aria-label="GitHub 저장소">
           <span class="icon-wrap" aria-hidden="true">
             <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
               <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577v-2.165c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.63-5.37-12-12-12z"/>
@@ -462,11 +628,33 @@
               <option value="lut">고정 패턴 (LUT)</option>
               <option value="cycle" selected>순환 좌표 (모아레 억제)</option>
             </select>
+            <label for="tileColorInput">타일 색상</label>
+            <input id="tileColorInput" type="color" value="#ffffff" style="width: 100%; height: 44px; border: 1px solid rgba(21, 32, 56, 0.14); border-radius: 14px; cursor: pointer;">
             <div class="buttons">
               <button id="processButton" class="primary" disabled>처리</button>
               <button id="downloadButton" class="secondary" disabled>이미지 저장</button>
             </div>
             <div id="statusText" class="status">이미지를 로드하여 처리할 수 있습니다.</div>
+          </div>
+
+          <div class="block">
+            <div class="block-title">전처리</div>
+            <div class="gamma-container">
+              <label class="toggle-switch">
+                <input id="gammaToggle" type="checkbox">
+                <div class="toggle-knob"></div>
+                <span style="font-size: 14px; font-weight: 600; color: var(--text);">감마 보정</span>
+              </label>
+              <div class="gamma-controls" id="gammaControls" style="display: none;">
+                <div class="gamma-input-group">
+                  <input id="gammaSlider" type="range" min="-5" max="5" value="0" step="0.1">
+                  <span class="gamma-value" id="gammaValue">0</span>
+                </div>
+                <div class="gamma-hint">
+                  <div>값: -5 (어두움) ←→ +5 (밝음)</div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="block">
@@ -499,6 +687,24 @@
             </div>
           </div>
         </section>
+
+        <section class="panel histogram-section">
+          <div class="histogram-title">픽셀값 분포</div>
+          <div class="histogram-grid">
+            <div class="histogram-container">
+              <div class="histogram-label">원본</div>
+              <canvas id="histogramOriginal" class="histogram-canvas"></canvas>
+            </div>
+            <div class="histogram-container" id="histogramGammaContainer" class="histogram-hidden">
+              <div class="histogram-label">감마 보정됨</div>
+              <canvas id="histogramGamma" class="histogram-canvas"></canvas>
+            </div>
+            <div class="histogram-container">
+              <div class="histogram-label">출력</div>
+              <canvas id="histogramOutput" class="histogram-canvas"></canvas>
+            </div>
+          </div>
+        </section>
       </section>
     </div>
   </div>
@@ -507,20 +713,20 @@
     <h2 class="section-heading">예시</h2>
     <div class="sample-grid">
       <figure>
-        <img src="img/before.jpg" alt="처리 전 원본 이미지">
+        <img src="img/woman_with_a_parasol_-_madame_monet_and_her_son_1983.1.29_short1920.jpg" alt="처리 전 원본 이미지">
         <figcaption>처리 전 (원본)</figcaption>
       </figure>
       <figure>
-        <img src="img/after1.png" alt="예시 1 - Tap me 처리 후">
-        <figcaption>처리 후 1 (Tap me 처리됨)</figcaption>
+        <img src="img/apply_gamma/woman_with_a_parasol_-_madame_monet_and_her_son_1983.1.29_short1920_processed_gamma=0.png" alt="예시 1 - 감마 보정 없음">
+        <figcaption>처리 후 1 (감마 없음)</figcaption>
       </figure>
       <figure>
-        <img src="img/after2.png" alt="예시 2 - Tap me 처리 후">
-        <figcaption>처리 후 2 (Tap me 처리됨)</figcaption>
+        <img src="img/apply_gamma/woman_with_a_parasol_-_madame_monet_and_her_son_1983.1.29_short1920_processed_gamma=5.png" alt="예시 2 - 감마 보정 적용">
+        <figcaption>처리 후 2 (감마 = 5)</figcaption>
       </figure>
     </div>
     <div class="tweet-wrap">
-        <blockquote class="twitter-tweet"><p lang="zxx" dir="ltr"><a href="https://t.co/BFZt4Rx6cx">pic.twitter.com/BFZt4Rx6cx</a></p>&mdash; だれあか (@dare_aka2) <a href="https://twitter.com/dare_aka2/status/2043703166009782359?ref_src=twsrc%5Etfw">April 13, 2026</a></blockquote>
+        <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">作例 <a href="https://t.co/K2EQjb1NSZ">pic.twitter.com/K2EQjb1NSZ</a></p>&mdash; だれあか (@dare_aka2) <a href="https://twitter.com/dare_aka2/status/2044358889244885471?ref_src=twsrc%5Etfw">April 15, 2026</a></blockquote>
       <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     </div>
   </div>
@@ -536,6 +742,6 @@
     </footer>
   </div>
 
-    <script src="script.js"></script>
+    <script src="script.min.js"></script>
 </body>
 </html>

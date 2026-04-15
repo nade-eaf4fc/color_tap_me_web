@@ -4,7 +4,7 @@
 
 A browser-based tool to generate X (formerly Twitter) "Tap me" color images.
 
-**→ [Open Tool](https://nade-eaf4fc.github.io/tap_me_web/)**
+**→ [Open Tool](https://nade-eaf4fc.github.io/color_tap_me_web/)**
 
 ![Screenshot](img/screenshot.png)
 
@@ -12,11 +12,21 @@ A browser-based tool to generate X (formerly Twitter) "Tap me" color images.
 
 ## Examples
 
-| Before | After 1 | After 2 |
+| Before | After 1 (no gamma) | After 2 (gamma = 5) |
 |--------|---------|----------|
-| ![Before](img/before.jpg) | ![After1](img/after1.png) | ![After2](img/after2.png) |
+| ![Before](img/woman_with_a_parasol_-_madame_monet_and_her_son_1983.1.29_short1920.jpg) | ![After1](img/apply_gamma/woman_with_a_parasol_-_madame_monet_and_her_son_1983.1.29_short1920_processed_gamma=0.png) | ![After2](img/apply_gamma/woman_with_a_parasol_-_madame_monet_and_her_son_1983.1.29_short1920_processed_gamma=5.png) |
 
-→ [View Example Tweet](https://twitter.com/dare_aka2/status/2043703166009782359)
+→ [View Example Tweet](https://x.com/dare_aka2/status/2044358889244885471)
+
+---
+
+## Effect of Gamma Correction
+
+Applying gamma correction helps preserve color information in darker images.
+
+| Without gamma (gamma = 0) | With gamma (gamma = 5) |
+|---|---|
+| ![gamma=0](img/apply_gamma/woman_with_a_parasol_-_madame_monet_and_her_son_1983.1.29_short1920_processed_gamma=0.png) | ![gamma=5](img/apply_gamma/woman_with_a_parasol_-_madame_monet_and_her_son_1983.1.29_short1920_processed_gamma=5.png) |
 
 ---
 
@@ -44,6 +54,18 @@ A browser-based tool to generate X (formerly Twitter) "Tap me" color images.
 
 ---
 
+## Example image
+
+**Claude Monet**, *Woman with a Parasol – Madame Monet and Her Son* (1875)
+
+- **Source:** National Gallery of Art / Wikimedia Commons
+- **Source URL:** https://www.nga.gov/artworks/61379-woman-parasol-madame-monet-and-her-son
+- **Original rights status:** Public domain / CC0-provided open-access image
+- **Modifications:** Resized for repository example use
+- **Credit:** Courtesy National Gallery of Art, Washington
+
+---
+
 ## License
 
-MIT License © [@nade_eaf4fc](https://x.com/nade_eaf4fc)
+MIT License © [@dare_aka2](https://x.com/dare_aka2) & [@nade_eaf4fc](https://x.com/nade_eaf4fc)

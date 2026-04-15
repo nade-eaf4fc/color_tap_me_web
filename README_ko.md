@@ -4,7 +4,7 @@
 
 X(구 Twitter)의 "Tap me" 컬러 이미지를 생성하는 브라우저 기반 도구입니다.
 
-**→ [도구 열기](https://nade-eaf4fc.github.io/tap_me_web/)**
+**→ [도구 열기](https://nade-eaf4fc.github.io/color_tap_me_web/)**
 
 ![스크린샷](img/screenshot.png)
 
@@ -12,11 +12,21 @@ X(구 Twitter)의 "Tap me" 컬러 이미지를 생성하는 브라우저 기반 
 
 ## 예시
 
-| 원본 | 결과 1 | 결과 2 |
+| 원본 | 결과 1 (감마 없음) | 결과 2 (감마 = 5) |
 |--------|---------|----------|
-| ![Before](img/before.jpg) | ![After1](img/after1.png) | ![After2](img/after2.png) |
+| ![Before](img/woman_with_a_parasol_-_madame_monet_and_her_son_1983.1.29_short1920.jpg) | ![After1](img/apply_gamma/woman_with_a_parasol_-_madame_monet_and_her_son_1983.1.29_short1920_processed_gamma=0.png) | ![After2](img/apply_gamma/woman_with_a_parasol_-_madame_monet_and_her_son_1983.1.29_short1920_processed_gamma=5.png) |
 
-→ [예시 트윗 보기](https://twitter.com/dare_aka2/status/2043703166009782359)
+→ [예시 트윗 보기](https://x.com/dare_aka2/status/2044358889244885471)
+
+---
+
+## 감마 보정 효과
+
+감마 보정을 적용하면 어두운 이미지에서도 색상 정보를 보존하기 쉬워집니다.
+
+| 감마 보정 없음 (gamma = 0) | 감마 보정 있음 (gamma = 5) |
+|---|---|
+| ![gamma=0](img/apply_gamma/woman_with_a_parasol_-_madame_monet_and_her_son_1983.1.29_short1920_processed_gamma=0.png) | ![gamma=5](img/apply_gamma/woman_with_a_parasol_-_madame_monet_and_her_son_1983.1.29_short1920_processed_gamma=5.png) |
 
 ---
 
@@ -44,6 +54,18 @@ X(구 Twitter)의 "Tap me" 컬러 이미지를 생성하는 브라우저 기반 
 
 ---
 
+## 예시 이미지
+
+**Claude Monet**, *Woman with a Parasol – Madame Monet and Her Son* (1875)
+
+- **출처:** National Gallery of Art / Wikimedia Commons
+- **출처 URL:** https://www.nga.gov/artworks/61379-woman-parasol-madame-monet-and-her-son
+- **권리 상태:** 퍼블릭 도메인 / CC0 오픈 액세스 이미지
+- **수정 사항:** 리포지토리 예시용으로 리사이즈
+- **크레딧:** Courtesy National Gallery of Art, Washington
+
+---
+
 ## 라이센스
 
-MIT License © [@nade_eaf4fc](https://x.com/nade_eaf4fc)
+MIT License © [@dare_aka2](https://x.com/dare_aka2) & [@nade_eaf4fc](https://x.com/nade_eaf4fc)

@@ -4,7 +4,7 @@
 
 X（旧Twitter）の「Tap me」カラー画像を生成するブラウザ上のツールです。
 
-**→ [ツールを開く](https://nade-eaf4fc.github.io/tap_me_web/)**
+**→ [ツールを開く](https://nade-eaf4fc.github.io/color_tap_me_web/)**
 
 ![スクリーンショット](img/screenshot.png)
 
@@ -12,11 +12,21 @@ X（旧Twitter）の「Tap me」カラー画像を生成するブラウザ上の
 
 ## 作例
 
-| Before | After 1 | After 2 |
+| Before | After 1（ガンマ補正なし） | After 2（ガンマ補正あり） |
 |--------|---------|----------|
-| ![Before](img/before.jpg) | ![After1](img/after1.png) | ![After2](img/after2.png) |
+| ![Before](img/woman_with_a_parasol_-_madame_monet_and_her_son_1983.1.29_short1920.jpg) | ![After1](img/apply_gamma/woman_with_a_parasol_-_madame_monet_and_her_son_1983.1.29_short1920_processed_gamma=0.png) | ![After2](img/apply_gamma/woman_with_a_parasol_-_madame_monet_and_her_son_1983.1.29_short1920_processed_gamma=5.png) |
 
-→ [作例ツイートを見る](https://twitter.com/dare_aka2/status/2043703166009782359)
+→ [作例ツイートを見る](https://x.com/dare_aka2/status/2044358889244885471)
+
+---
+
+## ガンマ補正の効果
+
+ガンマ補正を使うと、暗い画像でも色情報を保持しやすくなります。
+
+| ガンマ補正なし（gamma = 0） | ガンマ補正あり（gamma = 5） |
+|---|---|
+| ![gamma=0](img/apply_gamma/woman_with_a_parasol_-_madame_monet_and_her_son_1983.1.29_short1920_processed_gamma=0.png) | ![gamma=5](img/apply_gamma/woman_with_a_parasol_-_madame_monet_and_her_son_1983.1.29_short1920_processed_gamma=5.png) |
 
 ---
 
@@ -44,6 +54,18 @@ X（旧Twitter）の「Tap me」カラー画像を生成するブラウザ上の
 
 ---
 
+## 作例画像について
+
+**Claude Monet**, *Woman with a Parasol – Madame Monet and Her Son* (1875)
+
+- **出典:** National Gallery of Art / Wikimedia Commons
+- **原本URL:** https://www.nga.gov/artworks/61379-woman-parasol-madame-monet-and-her-son
+- **権利状態:** パブリックドメイン / CC0 オープンアクセス画像
+- **加工内容:** リポジトリの作例用にリサイズ
+- **クレジット:** Courtesy National Gallery of Art, Washington
+
+---
+
 ## ライセンス
 
-MIT License © [@nade_eaf4fc](https://x.com/nade_eaf4fc)
+MIT License © [@dare_aka2](https://x.com/dare_aka2) & [@nade_eaf4fc](https://x.com/nade_eaf4fc)

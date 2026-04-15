@@ -1,6 +1,7 @@
 # ===== Local/Build files (exclude) =====
 node_modules/
 archive/
+test/
 *.swp
 *.swo
 *~
