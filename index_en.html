@@ -574,6 +574,100 @@
     .histogram-hidden {
       display: none;
     }
+
+    .palette-section {
+      margin-top: 20px;
+    }
+
+    .palette-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0 0 12px;
+      letter-spacing: 0.02em;
+    }
+
+    .palette-preview {
+      display: grid;
+      grid-template-columns: repeat(16, 1fr);
+      gap: 1px;
+      background: rgba(21, 32, 56, 0.1);
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(21, 32, 56, 0.12);
+      min-height: 200px;
+    }
+
+    .palette-swatch {
+      aspect-ratio: 1;
+      border-radius: 2px;
+      border: none;
+      cursor: pointer;
+      transition: transform 100ms ease;
+      box-shadow: 0 1px 3px rgba(20, 31, 54, 0.1);
+    }
+
+    .palette-swatch:hover {
+      transform: scale(1.1);
+      z-index: 10;
+    }
+
+    .palette-hidden {
+      display: none;
+    }
+
+    .palette-info {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+
+    .palette-detail {
+      margin-top: 6px;
+      min-height: 1.4em;
+      font-size: 13px;
+      font-family: monospace;
+      color: var(--accent, #1a73e8);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .mode-tabs {
+      display: flex;
+      gap: 0;
+      border-radius: 12px;
+      background: rgba(21, 32, 56, 0.06);
+      padding: 3px;
+    }
+
+    .mode-tab {
+      flex: 1;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 10px;
+      background: transparent;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      cursor: pointer;
+      transition: background 160ms ease, color 160ms ease;
+      text-align: center;
+      width: auto;
+      box-shadow: none;
+    }
+
+    .mode-tab.active {
+      background: #fff;
+      color: var(--accent);
+      box-shadow: 0 2px 6px rgba(20, 31, 54, 0.10);
+    }
+
+    .mode-tab:hover:not(.active):not(:disabled) {
+      color: var(--text);
+      transform: none;
+    }
   </style>
 </head>
 <body>
@@ -625,13 +719,19 @@
 
           <div class="block">
             <div class="block-title">Action</div>
-            <label for="colorModeSelect">Color assignment method</label>
-            <select id="colorModeSelect">
-              <option value="lut">Fixed pattern (LUT)</option>
-              <option value="cycle" selected>Cyclic coordinate (Moire suppression)</option>
-            </select>
-            <label for="tileColorInput">Tile Color</label>
-            <input id="tileColorInput" type="color" value="#ffffff" style="width: 100%; height: 44px; border: 1px solid rgba(21, 32, 56, 0.14); border-radius: 14px; cursor: pointer;">
+            <div class="mode-tabs" role="tablist">
+              <button class="mode-tab active" id="modeTabNormal" role="tab" aria-selected="true">Normal</button>
+              <button class="mode-tab" id="modeTabCheckerboard" role="tab" aria-selected="false">Checkerboard</button>
+            </div>
+            <div id="normalControls" style="display: grid; gap: 10px;">
+              <label for="colorModeSelect">Color assignment method</label>
+              <select id="colorModeSelect">
+                <option value="lut">Fixed pattern (LUT)</option>
+                <option value="cycle" selected>Cyclic coordinate (Moire suppression)</option>
+              </select>
+              <label for="tileColorInput">Tile Color</label>
+              <input id="tileColorInput" type="color" value="#ffffff" style="width: 100%; height: 44px; border: 1px solid rgba(21, 32, 56, 0.14); border-radius: 14px; cursor: pointer;">
+            </div>
             <div class="buttons">
               <button id="processButton" class="primary" disabled>Process</button>
               <button id="downloadButton" class="secondary" disabled>Save Image</button>
@@ -707,6 +807,13 @@
             </div>
           </div>
         </section>
+
+        <section class="panel palette-section palette-hidden" id="paletteSection">
+          <div class="palette-title">Palette Used (256 colors)</div>
+          <div class="palette-preview" id="palettePreview"></div>
+          <div class="palette-info"><strong>Color Mode: Indexed Palette</strong> | Index 255 = Transparent (0,0,0) | Click for details</div>
+          <div id="paletteDetail" class="palette-detail"></div>
+        </section>
       </section>
     </div>
   </div>
@@ -740,6 +847,7 @@
         <li>This tool attempts to generate "Tap me" images, but due to the many factors involved (display environment, monitor, OS, application, etc.), we cannot guarantee that the intended results will be reproduced in all environments.</li>
         <li>All image processing is performed locally on your browser. The uploaded images and processing results are not sent to or stored on any server.</li>
         <li>The creator assumes no responsibility for any damage or disadvantage resulting from the use of this tool.</li>
+        <li>This tool uses Google Analytics for access analysis. Google Analytics uses cookies to collect data on site usage. For details, see <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google's Privacy Policy</a>.</li>
       </ul>
     </footer>
   </div>
@@ -762,6 +870,7 @@
     </section>
   </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/pako@2/dist/pako.min.js"></script>
     <script src="script.min.js"></script>
 </body>
 </html>

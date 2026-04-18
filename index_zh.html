@@ -574,6 +574,100 @@
     .histogram-hidden {
       display: none;
     }
+
+    .palette-section {
+      margin-top: 20px;
+    }
+
+    .palette-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0 0 12px;
+      letter-spacing: 0.02em;
+    }
+
+    .palette-preview {
+      display: grid;
+      grid-template-columns: repeat(16, 1fr);
+      gap: 1px;
+      background: rgba(21, 32, 56, 0.1);
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(21, 32, 56, 0.12);
+      min-height: 200px;
+    }
+
+    .palette-swatch {
+      aspect-ratio: 1;
+      border-radius: 2px;
+      border: none;
+      cursor: pointer;
+      transition: transform 100ms ease;
+      box-shadow: 0 1px 3px rgba(20, 31, 54, 0.1);
+    }
+
+    .palette-swatch:hover {
+      transform: scale(1.1);
+      z-index: 10;
+    }
+
+    .palette-hidden {
+      display: none;
+    }
+
+    .palette-info {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+
+    .palette-detail {
+      margin-top: 6px;
+      min-height: 1.4em;
+      font-size: 13px;
+      font-family: monospace;
+      color: var(--accent, #1a73e8);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .mode-tabs {
+      display: flex;
+      gap: 0;
+      border-radius: 12px;
+      background: rgba(21, 32, 56, 0.06);
+      padding: 3px;
+    }
+
+    .mode-tab {
+      flex: 1;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 10px;
+      background: transparent;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      cursor: pointer;
+      transition: background 160ms ease, color 160ms ease;
+      text-align: center;
+      width: auto;
+      box-shadow: none;
+    }
+
+    .mode-tab.active {
+      background: #fff;
+      color: var(--accent);
+      box-shadow: 0 2px 6px rgba(20, 31, 54, 0.10);
+    }
+
+    .mode-tab:hover:not(.active):not(:disabled) {
+      color: var(--text);
+      transform: none;
+    }
   </style>
 </head>
 <body>
@@ -625,13 +719,19 @@
 
           <div class="block">
             <div class="block-title">操作</div>
-            <label for="colorModeSelect">色彩分配方式</label>
-            <select id="colorModeSelect">
-              <option value="lut">固定模式 (LUT)</option>
-              <option value="cycle" selected>循环坐标 (莫尔条纹抑制)</option>
-            </select>
-            <label for="tileColorInput">瓷砖颜色</label>
-            <input id="tileColorInput" type="color" value="#ffffff" style="width: 100%; height: 44px; border: 1px solid rgba(21, 32, 56, 0.14); border-radius: 14px; cursor: pointer;">
+            <div class="mode-tabs" role="tablist">
+              <button class="mode-tab active" id="modeTabNormal" role="tab" aria-selected="true">通常处理</button>
+              <button class="mode-tab" id="modeTabCheckerboard" role="tab" aria-selected="false">棋盘格</button>
+            </div>
+            <div id="normalControls" style="display: grid; gap: 10px;">
+              <label for="colorModeSelect">色彩分配方式</label>
+              <select id="colorModeSelect">
+                <option value="lut">固定模式 (LUT)</option>
+                <option value="cycle" selected>循环坐标 (莫尔条纹抑制)</option>
+              </select>
+              <label for="tileColorInput">瓷砖颜色</label>
+              <input id="tileColorInput" type="color" value="#ffffff" style="width: 100%; height: 44px; border: 1px solid rgba(21, 32, 56, 0.14); border-radius: 14px; cursor: pointer;">
+            </div>
             <div class="buttons">
               <button id="processButton" class="primary" disabled>处理</button>
               <button id="downloadButton" class="secondary" disabled>保存图像</button>
@@ -707,6 +807,13 @@
             </div>
           </div>
         </section>
+
+        <section class="panel palette-section palette-hidden" id="paletteSection">
+          <div class="palette-title">使用的调色板（256种颜色）</div>
+          <div class="palette-preview" id="palettePreview"></div>
+          <div class="palette-info"><strong>颜色模式：索引调色板</strong> | 索引 255 = 透明色(0,0,0) | 点击查看详情</div>
+          <div id="paletteDetail" class="palette-detail"></div>
+        </section>
       </section>
     </div>
   </div>
@@ -740,6 +847,7 @@
         <li>本工具尝试生成"Tap me"图像，但由于涉及许多因素（显示环境、显示器、操作系统、应用程序等），我们不能保证在所有环境中都能重现预期的结果。</li>
         <li>所有图像处理都在您的浏览器上本地执行。上传的图像和处理结果不会发送到或存储在任何服务器上。</li>
         <li>创作者对因使用本工具而产生的任何损害或缺点不承担责任。</li>
+        <li>本工具使用 Google Analytics 进行访问分析。Google Analytics 使用 Cookie 收集用户访问数据。详情请参阅 <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google 隐私政策</a>。</li>
       </ul>
     </footer>
   </div>
@@ -762,6 +870,7 @@
     </section>
   </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/pako@2/dist/pako.min.js"></script>
     <script src="script.min.js"></script>
 </body>
 </html>

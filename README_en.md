@@ -51,6 +51,7 @@ Applying gamma correction helps preserve color information in darker images.
 - Due to various factors such as display environment, monitor, OS, and application, results may differ across environments.
 - All image processing is performed locally in the browser. Uploaded images are not sent to or stored on any server.
 - The creator assumes no responsibility for any damages or disadvantages resulting from the use of this tool.
+- This tool uses Google Analytics for access analysis. Google Analytics uses cookies to collect data on site usage. For details, see [Google's Privacy Policy](https://policies.google.com/privacy).
 
 ---
 

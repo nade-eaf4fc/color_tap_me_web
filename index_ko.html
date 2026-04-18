@@ -574,6 +574,100 @@
     .histogram-hidden {
       display: none;
     }
+
+    .palette-section {
+      margin-top: 20px;
+    }
+
+    .palette-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0 0 12px;
+      letter-spacing: 0.02em;
+    }
+
+    .palette-preview {
+      display: grid;
+      grid-template-columns: repeat(16, 1fr);
+      gap: 1px;
+      background: rgba(21, 32, 56, 0.1);
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(21, 32, 56, 0.12);
+      min-height: 200px;
+    }
+
+    .palette-swatch {
+      aspect-ratio: 1;
+      border-radius: 2px;
+      border: none;
+      cursor: pointer;
+      transition: transform 100ms ease;
+      box-shadow: 0 1px 3px rgba(20, 31, 54, 0.1);
+    }
+
+    .palette-swatch:hover {
+      transform: scale(1.1);
+      z-index: 10;
+    }
+
+    .palette-hidden {
+      display: none;
+    }
+
+    .palette-info {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+
+    .palette-detail {
+      margin-top: 6px;
+      min-height: 1.4em;
+      font-size: 13px;
+      font-family: monospace;
+      color: var(--accent, #1a73e8);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .mode-tabs {
+      display: flex;
+      gap: 0;
+      border-radius: 12px;
+      background: rgba(21, 32, 56, 0.06);
+      padding: 3px;
+    }
+
+    .mode-tab {
+      flex: 1;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 10px;
+      background: transparent;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      cursor: pointer;
+      transition: background 160ms ease, color 160ms ease;
+      text-align: center;
+      width: auto;
+      box-shadow: none;
+    }
+
+    .mode-tab.active {
+      background: #fff;
+      color: var(--accent);
+      box-shadow: 0 2px 6px rgba(20, 31, 54, 0.10);
+    }
+
+    .mode-tab:hover:not(.active):not(:disabled) {
+      color: var(--text);
+      transform: none;
+    }
   </style>
 </head>
 <body>
@@ -625,13 +719,19 @@
 
           <div class="block">
             <div class="block-title">작업</div>
-            <label for="colorModeSelect">색상 할당 방식</label>
-            <select id="colorModeSelect">
-              <option value="lut">고정 패턴 (LUT)</option>
-              <option value="cycle" selected>순환 좌표 (모아레 억제)</option>
-            </select>
-            <label for="tileColorInput">타일 색상</label>
-            <input id="tileColorInput" type="color" value="#ffffff" style="width: 100%; height: 44px; border: 1px solid rgba(21, 32, 56, 0.14); border-radius: 14px; cursor: pointer;">
+            <div class="mode-tabs" role="tablist">
+              <button class="mode-tab active" id="modeTabNormal" role="tab" aria-selected="true">일반 처리</button>
+              <button class="mode-tab" id="modeTabCheckerboard" role="tab" aria-selected="false">체커보드</button>
+            </div>
+            <div id="normalControls" style="display: grid; gap: 10px;">
+              <label for="colorModeSelect">색상 할당 방식</label>
+              <select id="colorModeSelect">
+                <option value="lut">고정 패턴 (LUT)</option>
+                <option value="cycle" selected>순환 좌표 (모아레 억제)</option>
+              </select>
+              <label for="tileColorInput">타일 색상</label>
+              <input id="tileColorInput" type="color" value="#ffffff" style="width: 100%; height: 44px; border: 1px solid rgba(21, 32, 56, 0.14); border-radius: 14px; cursor: pointer;">
+            </div>
             <div class="buttons">
               <button id="processButton" class="primary" disabled>처리</button>
               <button id="downloadButton" class="secondary" disabled>이미지 저장</button>
@@ -707,6 +807,13 @@
             </div>
           </div>
         </section>
+
+        <section class="panel palette-section palette-hidden" id="paletteSection">
+          <div class="palette-title">사용된 팔레트 (256색)</div>
+          <div class="palette-preview" id="palettePreview"></div>
+          <div class="palette-info"><strong>색상 모드: 색인 팔레트</strong> | 색인 255 = 투명색(0,0,0) | 클릭하여 세부 정보 보기</div>
+          <div id="paletteDetail" class="palette-detail"></div>
+        </section>
       </section>
     </div>
   </div>
@@ -740,6 +847,7 @@
         <li>본 도구는 "Tap me" 이미지 생성을 시도하지만, 표시 환경, 모니터, OS, 응용 프로그램 등 많은 요소가 관련되어 있으므로 모든 환경에서 의도한 결과를 재현할 것을 보장할 수 없습니다.</li>
         <li>모든 이미지 처리는 사용자의 브라우저에서 로컬로 수행됩니다. 업로드된 이미지 및 처리 결과는 서버로 전송되거나 저장되지 않습니다.</li>
         <li>본 도구의 사용으로 인한 어떤 손해나 불이익에 대해서도 제작자는 책임지지 않습니다.</li>
+        <li>본 도구는 접속 분석을 위해 Google Analytics를 사용합니다. Google Analytics는 쿠키를 사용하여 사이트 이용 데이터를 수집합니다. 자세한 내용은 <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google 개인정보처리방침</a>을 참조하시기 바랍니다.</li>
       </ul>
     </footer>
   </div>
@@ -762,6 +870,7 @@
     </section>
   </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/pako@2/dist/pako.min.js"></script>
     <script src="script.min.js"></script>
 </body>
 </html>
