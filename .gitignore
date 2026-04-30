@@ -13,3 +13,6 @@ venv/
 
 # OS
 Thumbs.db
+
+# Claude
+.claude/
