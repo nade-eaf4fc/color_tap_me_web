@@ -139,6 +139,34 @@
       transform: translateY(-1px);
     }
 
+    .composite-inputs {
+      display: grid;
+      gap: 10px;
+    }
+
+    .composite-drop {
+      width: 100%;
+      border: 2px dashed rgba(39,74,145,0.25);
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(39,74,145,0.05), rgba(39,74,145,0.02));
+      padding: 14px 12px;
+      text-align: left;
+      cursor: pointer;
+      display: grid;
+      gap: 4px;
+      box-shadow: none;
+    }
+
+    .composite-drop.dragover {
+      border-color: rgba(39,74,145,0.6);
+      background: linear-gradient(180deg, rgba(39,74,145,0.10), rgba(39,74,145,0.04));
+    }
+
+    .composite-drop strong {
+      display: block;
+      font-size: 14px;
+    }
+
     .dropzone strong {
       display: block;
       font-size: 16px;
@@ -146,6 +174,7 @@
     }
 
     .dropzone span,
+    .composite-drop span,
     .hint,
     .status,
     .meta,
@@ -718,11 +747,30 @@
         <div class="controls">
           <div class="block">
             <div class="block-title">입력</div>
-            <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="이미지 선택">
-              <strong>여기에 이미지를 드래그하여 놓으세요</strong>
-              <span>또는 클릭하여 PNG / JPG / WebP 선택</span>
+            <div id="singleInputGroup" style="display: grid; gap: 10px;">
+              <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="이미지 선택">
+                <strong>여기에 이미지를 드래그하여 놓으세요</strong>
+                <span>또는 클릭하여 PNG / JPG / WebP 선택</span>
+              </div>
+              <input id="fileInput" type="file" accept="image/*">
             </div>
-            <input id="fileInput" type="file" accept="image/*">
+
+            <div id="compositeInputGroup" class="composite-inputs" style="display: none;">
+              <button id="compositeDropA" class="composite-drop" type="button">
+                <strong>A 이미지 선택（탭 전에 보여줄 이미지）</strong>
+                <span>클릭 또는 여기에 드래그하여 놓기</span>
+              </button>
+              <input id="fileInputA" type="file" accept="image/*">
+              <div id="fileMetaA" class="meta">A 이미지가 선택되지 않았습니다.</div>
+
+              <button id="compositeDropB" class="composite-drop" type="button">
+                <strong>B 이미지 선택（탭 후에 보여줄 전체 이미지）</strong>
+                <span>클릭 또는 여기에 드래그하여 놓기</span>
+              </button>
+              <input id="fileInputB" type="file" accept="image/*">
+              <div id="fileMetaB" class="meta">B 이미지가 선택되지 않았습니다.</div>
+            </div>
+
             <div id="fileMeta" class="meta">로드된 이미지가 없습니다.</div>
           </div>
 
@@ -731,6 +779,7 @@
             <div class="mode-tabs" role="tablist">
               <button class="mode-tab active" id="modeTabNormal" role="tab" aria-selected="true">일반 처리</button>
               <button class="mode-tab" id="modeTabCheckerboard" role="tab" aria-selected="false">체커보드</button>
+              <button class="mode-tab" id="modeTabComposite" role="tab" aria-selected="false">A/B 합성</button>
             </div>
             <div id="normalControls" style="display: grid; gap: 10px;">
               <label for="colorModeSelect">색상 할당 방식</label>
@@ -740,6 +789,10 @@
               </select>
               <label for="tileColorInput">타일 색상</label>
               <input id="tileColorInput" type="color" value="#ffffff" style="width: 100%; height: 44px; border: 1px solid rgba(21, 32, 56, 0.14); border-radius: 14px; cursor: pointer;">
+            </div>
+            <div id="compositeControls" style="display: none; gap: 10px;">
+              <div class="block-title">A/B 합성 규칙</div>
+              <div class="hint">B 이미지를 기존 "체커보드" 모드와 동일한 배치로 B'로 만듭니다. 최종 픽셀은 A 이미지의 alpha가 0보다 크면 A의 색상을, A 이미지가 완전히 투명한 경우에만 B' 픽셀을 채택합니다.</div>
             </div>
             <div class="buttons">
               <button id="processButton" class="primary" disabled>처리</button>
@@ -762,7 +815,7 @@
                   <span class="gamma-value" id="gammaValue">0</span>
                 </div>
                 <div class="gamma-hint">
-                  <div>값: -5 (어두움) ←→ +5 (밝음)</div>
+                  <div>값: -5 (어두움) &#x2190;&#x2192; +5 (밝음)</div>
                 </div>
               </div>
             </div>
@@ -774,6 +827,7 @@
               <li>단일 이미지는 2:1에서 3:4 사이의 종횡비로 전체 표시될 가능성이 높습니다.</li>
               <li>권장 크기는 한 변이 2048픽셀 이상입니다.</li>
               <li>4096픽셀 미만으로 설정하면 X의 압축으로 인해 색상이 제대로 표시되지 않을 수 있습니다.</li>
+              <li>A/B 합성에서는 A 이미지와 B 이미지의 가로세로 크기를 완전히 일치시켜야 합니다. A의 완전 투명 부분만 아래의 B' 픽셀이 보이는 구멍으로 처리됩니다.</li>
             </ul>
           </div>
         </div>
