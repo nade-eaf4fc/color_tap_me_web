@@ -271,6 +271,7 @@
     }
 
     .canvas-wrap {
+      position: relative;
       border-radius: 16px;
       border: 1px solid rgba(21, 32, 56, 0.12);
       background:
@@ -281,6 +282,88 @@
       overflow: auto;
       max-height: 620px;
       min-height: 300px;
+    }
+
+    #paintOverlayCanvas {
+      position: absolute;
+      left: 0;
+      top: 0;
+      pointer-events: none;
+      image-rendering: pixelated;
+      touch-action: none;
+      max-width: 100%;
+      height: auto;
+      min-width: 100%;
+      min-height: 0;
+      background: transparent;
+    }
+
+    #paintOverlayCanvas.active {
+      pointer-events: auto;
+      cursor: crosshair;
+    }
+
+    .paint-tool-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .paint-tool-row.four {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .paint-tool-btn {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(21, 32, 56, 0.14);
+      background: #fff;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .paint-tool-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .paint-tool-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .paint-text-group {
+      display: grid;
+      gap: 6px;
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(21, 32, 56, 0.10);
+      background: rgba(39, 74, 145, 0.04);
+    }
+
+    .paint-text-input,
+    .paint-text-select {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(21, 32, 56, 0.14);
+      background: #fff;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 500;
+      box-sizing: border-box;
+    }
+
+    .paint-text-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
     }
 
     canvas {
@@ -780,6 +863,7 @@
               <button class="mode-tab active" id="modeTabNormal" role="tab" aria-selected="true">Normal</button>
               <button class="mode-tab" id="modeTabCheckerboard" role="tab" aria-selected="false">Checkerboard</button>
               <button class="mode-tab" id="modeTabComposite" role="tab" aria-selected="false">A/B Composite</button>
+              <button class="mode-tab" id="modeTabPaint" role="tab" aria-selected="false">Paint Composite</button>
             </div>
             <div id="normalControls" style="display: grid; gap: 10px;">
               <label for="colorModeSelect">Color assignment method</label>
@@ -793,6 +877,50 @@
             <div id="compositeControls" style="display: none; gap: 10px;">
               <div class="block-title">A/B Composite Rules</div>
               <div class="hint">Image B is processed with the same "Checkerboard" layout to produce B'. The final pixel uses the color from image A if A's alpha is greater than 0; only fully transparent pixels in A show the corresponding B' pixel.</div>
+            </div>
+            <div id="paintControls" style="display: none; gap: 10px;">
+              <div class="block-title">Paint Composite</div>
+              <div class="hint">The painted area becomes the region visible before tap. Unpainted areas are revealed after tap (checkerboard transparency).</div>
+              <div class="paint-tool-row">
+                <button id="paintToolBrush" class="paint-tool-btn active" type="button">Brush</button>
+                <button id="paintToolEraser" class="paint-tool-btn" type="button">Eraser</button>
+              </div>
+              <div class="paint-tool-row">
+                <button id="paintToolLassoFill" class="paint-tool-btn" type="button">Lasso fill</button>
+                <button id="paintToolLassoErase" class="paint-tool-btn" type="button">Lasso erase</button>
+              </div>
+              <label for="paintSizeSlider">Brush size <span id="paintSizeValue">24</span> px</label>
+              <input id="paintSizeSlider" type="range" min="1" max="200" value="24">
+              <div class="paint-text-group">
+                <label for="paintTextInput">Text</label>
+                <input id="paintTextInput" class="paint-text-input" type="text" value="Tap me" maxlength="32">
+                <label for="paintTextFontSelect">Font</label>
+                <select id="paintTextFontSelect" class="paint-text-select">
+                  <option value="system-ui, sans-serif">System default</option>
+                  <option value="sans-serif" selected>Sans-serif</option>
+                  <option value="serif">Serif</option>
+                  <option value="monospace">Monospace</option>
+                  <option value="cursive">Cursive</option>
+                </select>
+                <label for="paintTextSizeSlider">Text size <span id="paintTextSizeValue">120</span> px</label>
+                <input id="paintTextSizeSlider" type="range" min="20" max="600" value="120">
+                <label class="paint-text-toggle">
+                  <span>Text color</span>
+                  <input id="paintTextColorInput" type="color" value="#ffffff" style="width: 52px; height: 32px; border: 1px solid rgba(21, 32, 56, 0.14); border-radius: 8px; cursor: pointer;">
+                </label>
+                <label class="paint-text-toggle">
+                  <input id="paintTextBoldToggle" type="checkbox">
+                  <span>Bold</span>
+                </label>
+                <button id="paintToolText" class="paint-tool-btn" type="button">Text placement mode</button>
+                <div class="hint">Turn on placement mode and click/tap on the Before canvas where you want the text.</div>
+              </div>
+              <div class="paint-tool-row four">
+                <button id="paintUndoBtn" class="paint-tool-btn" type="button" disabled>Undo</button>
+                <button id="paintRedoBtn" class="paint-tool-btn" type="button" disabled>Redo</button>
+                <button id="paintInvertBtn" class="paint-tool-btn" type="button">Invert</button>
+                <button id="paintClearBtn" class="paint-tool-btn" type="button">Clear</button>
+              </div>
             </div>
             <div class="buttons">
               <button id="processButton" class="primary" disabled>Process</button>
@@ -828,6 +956,7 @@
               <li>A good rule of thumb is to use dimensions of 2048 px or more on one side.</li>
               <li>Do not go below 4096 px, as X's compression may cause color artifacts.</li>
               <li>For A/B composite, the dimensions of image A and image B must match exactly. Only the fully transparent areas of A reveal the underlying B' pixels.</li>
+              <li>For Paint composite, the painted region is treated as visible before tap. Unpainted regions become transparent via the checkerboard pattern.</li>
             </ul>
           </div>
         </div>
@@ -841,6 +970,7 @@
               <div id="beforeMeta" class="meta">-</div>
               <div class="canvas-wrap">
                 <canvas id="sourceCanvas"></canvas>
+                <canvas id="paintOverlayCanvas" style="display: none;"></canvas>
               </div>
             </div>
             <div class="card">
